@@ -120,7 +120,6 @@ p {
     border-radius: 10px;
 }
 
-
 /* Score and Timer Display Styling */
 #score-timer {
     position: absolute;
@@ -136,6 +135,7 @@ p {
 #score-timer p {
     margin: 0;
 }
+
 /* Pop-up styles */
 .popup {
     position: fixed;
@@ -148,29 +148,29 @@ p {
     align-items: center;  /* Center horizontally */
     justify-content: center;  /* Center vertically */
     z-index: 1000;  /* Ensure it's above other content */
-  }
-  
-  /* Pop-up content styles */
-  .popup-content {
+}
+
+/* Pop-up content styles */
+.popup-content {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
     text-align: center;
     width: 80%;  /* Adjust the width as needed */
     max-width: 400px;  /* Maximum width */
-  }
-  
-  .popup h2 {
+}
+
+.popup h2 {
     font-size: 24px;
     color: #333;
-  }
-  
-  .popup p {
+}
+
+.popup p {
     font-size: 18px;
     color: #555;
-  }
-  
-  .popup button {
+}
+
+.popup button {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #28a745;
@@ -178,14 +178,12 @@ p {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .popup button:hover {
+}
+
+.popup button:hover {
     background-color: #218838;
-  }
-  
+}
 
-  
 /* Center the timeout message on the screen */
 .timeout-message {
     position: fixed; /* Fixed positioning to keep it centered on the screen */
@@ -216,34 +214,90 @@ p {
     font-size: 16px;
 }
 
-
-
-/* Center the timeout message on the screen */
-.timeout-message {
-    position: fixed; /* Fixed positioning to keep it centered on the screen */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset to perfectly center */
-    background-color: white; /* White background for the container */
-    color: black; /* Black text color */
-    padding: 30px;
-    border-radius: 10px;
+/* Win Message Styling */
+.win-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slight shadow for better visibility */
-    z-index: 1000; /* Ensure it's above other elements */
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-out;
 }
 
-.timeout-message h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.win-message h2 {
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
 }
 
-.timeout-message p {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color:#0c0b0b;
+.win-message h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
 }
 
-.timeout-message button {
-    font-size: 16px;
+.win-message p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.celebration-text {
+    color: #FF4500;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.button-container button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.button-container button:hover {
+    transform: translateY(-3px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Exit Button Styling */
+.exit-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.exit-button .btn {
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.exit-button .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

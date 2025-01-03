@@ -65,29 +65,30 @@ function flipCard(cardElement, cardValue) {
 
 // Check if cards match
 function checkForMatch() {
-  const [card1, card2] = flippedCards;
+    const [card1, card2] = flippedCards;
 
-  if (card1.value === card2.value) {
-      matchedCards++;
-      score += 3; // Add 3 points for each matched pair
-      updateScore();
-      correctSound.play(); // Play the correct sound
-      flippedCards = [];
-      if (matchedCards === cards.length / 2) {
-          stopTimer(); // Stop timer when game is finished
-          successSound.play(); // Play success sound
-          setTimeout(() => {
-              document.getElementById('successPopup').style.display = 'flex'; // Show success pop-up
-          }, 500);
-      }
-  } else {
-      mismatchSound.play(); // Play mismatch sound
-      setTimeout(() => {
-          card1.element.classList.remove('flipped');
-          card2.element.classList.remove('flipped');
-          flippedCards = [];
-      }, 1000);
-  }
+    if (card1.value === card2.value) {
+        matchedCards++;
+        score += 3; // Add 3 points for each matched pair
+        updateScore();
+        correctSound.play(); // Play the correct sound
+        flippedCards = [];
+        
+        if (matchedCards === cards.length / 2) {
+            stopTimer(); // Stop timer when game is finished
+            successSound.play(); // Play success sound
+            setTimeout(() => {
+                displayWinMessage(); // Show win message with confetti and save score
+            }, 500);
+        }
+    } else {
+        mismatchSound.play(); // Play mismatch sound
+        setTimeout(() => {
+            card1.element.classList.remove('flipped');
+            card2.element.classList.remove('flipped');
+            flippedCards = [];
+        }, 1000);
+    }
 }
 
 // Update score
@@ -119,17 +120,6 @@ window.onload = function () {
   document.getElementById('timer').textContent = `Time: 0s`; // Display initial time as 0 seconds
   startTimer();
 };
-
-
-// Initialize game
-window.onload = function () {
-  shuffleCards();
-  createGameBoard();
-  gameStarted = true;
-  document.getElementById('timer').textContent = `Time: 0s`; // Display initial time as 0 seconds
-  startTimer();
-};
-
 
 // Stop timer
 function stopTimer() {
@@ -171,23 +161,12 @@ function startNewGame() {
   startTimer(); // Start the timer
 }
 
-// Close the pop-up and redirect
-document.getElementById('closePopup').addEventListener('click', function () {
-  window.location.href = 'celebratory.html'; // Redirect to celebratory page
-});
-
-// Initialize game
-window.onload = function () {
-  shuffleCards();
-  createGameBoard();
-  gameStarted = true;
-  timeRemaining = 140; // Start timer at 60 seconds
-  document.getElementById('timer').textContent = `Time: ${timeRemaining}s`; // Display initial time
-  startTimer();
-};
-
 // Display Win Message with time and score
 function displayWinMessage() {
+    // Remove any existing win messages or popups
+    const existingMessages = document.querySelectorAll('.win-message, .popup');
+    existingMessages.forEach(msg => msg.remove());
+
     // Start confetti animation with more particles for expert level
     confetti({
         particleCount: 200,
@@ -208,7 +187,7 @@ function displayWinMessage() {
                 userId: user.id,
                 level: 'expert',
                 score: score,
-                timeTaken: timer + 's'
+                timeTaken: (160 - timeRemaining) + 's'
             })
         })
         .then(response => response.json())
@@ -228,10 +207,10 @@ function displayWinMessage() {
         <h2>Legendary! 🏆</h2>
         <h3>You've Conquered the Expert Level!</h3>
         <p>Your score: ${score}</p>
-        <p>Time taken: ${timer}s</p>
+        <p>Time taken: ${160 - timeRemaining}s</p>
         <div class="celebration-text">You're a Memory Card Game Master!</div>
         <div class="button-container mt-4">
-            <button id="playAgainBtn" class="btn btn-success me-3">Play Again</button>
+            <button id="celebrateBtn" class="btn btn-success me-3">Celebrate!</button>
             <button id="exitBtn" class="btn btn-primary">Exit to Levels</button>
         </div>
     `;
@@ -239,9 +218,8 @@ function displayWinMessage() {
     document.body.appendChild(winMessage);
 
     // Add event listeners to buttons
-    document.getElementById('playAgainBtn').addEventListener('click', () => {
-        startNewGame();
-        winMessage.remove();
+    document.getElementById('celebrateBtn').addEventListener('click', () => {
+        window.location.href = 'celebratory.html';
     });
 
     document.getElementById('exitBtn').addEventListener('click', () => {
