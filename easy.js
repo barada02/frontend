@@ -167,21 +167,26 @@ function startTimer() {
     }, 1000);
 }
 
-
 // Update timer
 function updateTimer() {
     const timerElement = document.getElementById('timer');
-    timerElement.textContent = `Time: ${timer}s`;
+    if (timerElement) {
+        timerElement.textContent = `Time: ${timer}s`;
+    }
 }
 
 // Update score
 function updateScore() {
     const scoreElement = document.getElementById('score');
-    scoreElement.textContent = `Score: ${score}`;
+    if (scoreElement) {
+        scoreElement.textContent = `Score: ${score}`;
+    }
 }
 
 // Initialize game
-shuffleCards();
-createGameBoard();
-gameStarted = true;
-startTimer();
+document.addEventListener('DOMContentLoaded', function() {
+    shuffleCards();
+    createGameBoard();
+    gameStarted = true;
+    startTimer();
+});
