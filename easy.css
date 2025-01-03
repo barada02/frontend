@@ -133,45 +133,47 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border: 2px solid #007bff;
-    border-radius: 10px;
-    padding: 15px 30px; /* Smaller padding for a compact design */
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 300px; /* Fixed width for a small pop-up */
+    animation: fadeIn 0.5s ease-out;
 }
 
-/* Pop-Up Message Text */
 .win-message h2 {
-    font-size: 1.5rem; /* Smaller heading size */
-    color: #007bff;
-    margin-bottom: 10px;
+    color: #28a745;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.win-message h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
 }
 
 .win-message p {
-    font-size: 1rem; /* Smaller paragraph size */
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0.5rem;
 }
 
-/* Pop-Up Message Button Styling */
-.win-message button {
-    width: 100px; /* Small button */
-    font-size: 14px;
-    padding: 8px;
-    background-color: #28a745; /* Success green */
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
-.win-message button:hover {
-    background-color: #218838; /* Darker green on hover */
-    transform: translateY(-2px);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 /* Center the timeout message on the screen */
