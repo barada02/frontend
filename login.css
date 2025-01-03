@@ -21,8 +21,22 @@ body {
     position: relative;
   }
   
+  /* Image Container */
+  .image {
+    position: absolute;
+    bottom: 0px;
+    right: 40px;
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+  }
   
-  
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+  }
   
   /* Card Content */
   .login-card {
@@ -30,10 +44,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    position: relative;
+    min-height: 400px;
   }
   
   .content {
     padding: 20px;
+    width: 100%;
+    max-width: calc(100% - 170px); /* Make space for image */
   }
   
   .content h2 {
@@ -98,19 +116,6 @@ body {
   
   .login-btn:hover {
     background-color: #e63939; /* Hover effect */
-  }
-  
-  
-  /* Image Section */
-  .image {
-    position: absolute;
-    top: -30px;
-    right: -40px;
-  }
-  
-  .image img {
-    width: 120px;
-    height: auto;
   }
   
   /* Sign-Up Link */
