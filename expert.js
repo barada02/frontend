@@ -185,3 +185,81 @@ window.onload = function () {
   document.getElementById('timer').textContent = `Time: ${timeRemaining}s`; // Display initial time
   startTimer();
 };
+
+// Display Win Message with time and score
+function displayWinMessage() {
+    // Start confetti animation with more particles for expert level
+    confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: ['#FFD700', '#FFA500', '#FF4500'] // Gold, Orange, Red colors for expert
+    });
+
+    // Save score to database
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.id) {
+        fetch('save_score.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.id,
+                level: 'expert',
+                score: score,
+                timeTaken: timer + 's'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error('Failed to save score:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving score:', error);
+        });
+    }
+
+    const winMessage = document.createElement('div');
+    winMessage.classList.add('win-message');
+    winMessage.innerHTML = `
+        <h2>Legendary! 🏆</h2>
+        <h3>You've Conquered the Expert Level!</h3>
+        <p>Your score: ${score}</p>
+        <p>Time taken: ${timer}s</p>
+        <div class="celebration-text">You're a Memory Card Game Master!</div>
+        <div class="button-container mt-4">
+            <button id="playAgainBtn" class="btn btn-success me-3">Play Again</button>
+            <button id="exitBtn" class="btn btn-primary">Exit to Levels</button>
+        </div>
+    `;
+
+    document.body.appendChild(winMessage);
+
+    // Add event listeners to buttons
+    document.getElementById('playAgainBtn').addEventListener('click', () => {
+        startNewGame();
+        winMessage.remove();
+    });
+
+    document.getElementById('exitBtn').addEventListener('click', () => {
+        window.location.href = 'levels.html';
+    });
+
+    // Add more confetti every few seconds with special colors
+    const confettiInterval = setInterval(() => {
+        confetti({
+            particleCount: 100,
+            spread: 90,
+            origin: { y: 0.6 },
+            colors: ['#FFD700', '#FFA500', '#FF4500']
+        });
+    }, 1500);
+
+    // Stop confetti after 10 seconds (longer for expert level celebration)
+    setTimeout(() => {
+        clearInterval(confettiInterval);
+    }, 10000);
+}

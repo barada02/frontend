@@ -157,22 +157,78 @@ function startNewGame() {
     startTimer();
 }
 
-// Display win message with time and score
+// Display Win Message with time and score
 function displayWinMessage() {
+    // Start confetti animation
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+
+    // Save score to database
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.id) {
+        fetch('save_score.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.id,
+                level: 'normal',
+                score: score,
+                timeTaken: timer + 's'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error('Failed to save score:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving score:', error);
+        });
+    }
+
     const winMessage = document.createElement('div');
     winMessage.classList.add('win-message');
     winMessage.innerHTML = `
-        <h2>You won the Normal Level!</h2>
-        <p class="score-info">Your score: <span>${score}</span></p>
-        <p class="time-info">Time taken: <span>${Math.floor(timer / 60)}:${String(timer % 60).padStart(2, '0')}</span></p>
+        <h2>Outstanding! 🌟</h2>
+        <h3>You've Mastered the Normal Level!</h3>
+        <p>Your score: ${score}</p>
+        <p>Time taken: ${timer}s</p>
+        <div class="button-container mt-4">
+            <button id="nextLevelBtn" class="btn btn-success me-3">Expert Level</button>
+            <button id="exitBtn" class="btn btn-primary">Exit to Levels</button>
+        </div>
     `;
 
-    const okayButton = document.createElement('button');
-    okayButton.classList.add('btn', 'btn-success', 'mt-4');
-    okayButton.textContent = 'Okay';
-    okayButton.addEventListener('click', redirectToExpert); // Redirect to Expert level
-    winMessage.appendChild(okayButton);
     document.body.appendChild(winMessage);
+
+    // Add event listeners to buttons
+    document.getElementById('nextLevelBtn').addEventListener('click', () => {
+        window.location.href = 'expertlevel.html';
+    });
+
+    document.getElementById('exitBtn').addEventListener('click', () => {
+        window.location.href = 'levels.html';
+    });
+
+    // Add more confetti every few seconds
+    const confettiInterval = setInterval(() => {
+        confetti({
+            particleCount: 75,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }, 2000);
+
+    // Stop confetti after 8 seconds
+    setTimeout(() => {
+        clearInterval(confettiInterval);
+    }, 8000);
 }
 
 // Redirect to the Expert level when "Okay" is clicked
